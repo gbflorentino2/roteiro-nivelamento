@@ -1,1 +1,2 @@
-#Atividade em Dupla - Git e GitHub (ALTERANDO A PRIMEIRA LINHA PARA DAR CONFLITO AO ALUNO A)
+#Atividade em Dupla - Git e GitHub (ALTERANDO A PRIMEIRA LINHA PARA DAR CONFLITO AO ALUNO A) e Conflitos
+#teste
