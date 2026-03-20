@@ -1,1 +1,1 @@
-#Atividade em Dupla - Git, GitHub e conflitos
+#Atividade em Dupla - Git e GitHub
