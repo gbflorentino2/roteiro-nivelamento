@@ -1,50 +1,35 @@
-proc tarefa_2 {filename} {
-    set primitivas [list "AND2" "XOR2"]
-    set modulos [list "flipflop_D" "contador_4bits" "somador_4bits"]
+proc read_cells_from_filename {filename} {
+    # File to read 
+    set infile [open $filename r]
 
-    set relatorio [dict create]
+    set last_module ""
+    set db_module [dict create]
 
-    set fileId [open $filename r]
-    set linhas [split [read $fileId] "\n"]
-    close $fileId
+    while { [gets $infile line] >= 0 } {
+        # Regex Patterns
+        set result_modules [regexp {module (\w+)} $line match module]
+        set result_instances [regexp {(\w+) \w+ \(\.} $line match instance]
 
-    set i 0
-    set total_lines [llength $linhas]
-
-    while {$i < $total_lines} {
-        set line [lindex $linhas $i]
-
-        if {[regexp {^\s*module\s+(\w+)} $line -> nome_modulo]} {
-            dict set relatorio $nome_modulo "qtd_primitivas" 0
-            dict set relatorio $nome_modulo "qtd_submodulos" 0
-
-            while {$i < $total_lines && ![regexp {\);} $line]} {
-                incr i
-                set line [lindex $linhas $i]
-            }
-
-            incr i
-            set line [lindex $linhas $i]
-
-            while {$i < $total_lines && ![regexp {^\s*endmodule\M} $line]} {
-                set primeira_palavra [lindex $line 0]
-
-                if {$primeira_palavra in $primitivas} {
-                    set qtd_atual [dict get $relatorio $nome_modulo "qtd_primitivas"]
-                    incr qtd_atual
-                    dict set relatorio $nome_modulo "qtd_primitivas" $qtd_atual
-                } elseif {$primeira_palavra in $modulos} {
-                    set qtd_atual [dict get $relatorio $nome_modulo "qtd_submodulos"]
-                    incr qtd_atual
-                    dict set relatorio $nome_modulo "qtd_submodulos" $qtd_atual
-                }
-
-                incr i
-                set line [lindex $linhas $i]
+        if {$result_modules > 0} {
+            if { ![dict exists $db_module $module] } {
+                set last_module $module
+                dict set db_module $last_module [dict create]
             }
         }
-        incr i
-    }
+        
+        if {$result_instances > 0} {
+            if { ![dict exists $db_module $last_module $instance] } {
+                dict set db_module $last_module $instance 1
+                
+            } else {
+                set num_instance_before [dict get $db_module $last_module $instance]
+                set num_instance_after [expr {$num_instance_before + 1}]
+                
+                dict set db_module $last_module $instance $num_instance_after
+            }
+        }
+    }    
+    close $infile
 
-    return $relatorio
+    return $db_module
 }

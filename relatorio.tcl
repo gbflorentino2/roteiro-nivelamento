@@ -1,27 +1,11 @@
 source tarefa_1.tcl
 source tarefa_2.tcl
+source estatisticas_conexoes.tcl
 
 # Relatório
 set filename "netlist.v"
 set totals_full [tarefa_1 $filename]
 set totals [dict remove $totals_full TOTAL]
-set db_module_raw [tarefa_2 $filename]
-
-set db_module [dict create]
-dict for {module counts} $db_module_raw {
-    set instances [dict create]
-    set qtd_primitivas [dict get $counts "qtd_primitivas"]
-    set qtd_submodulos [dict get $counts "qtd_submodulos"]
-
-    if {$qtd_primitivas > 0} {
-        dict set instances AND $qtd_primitivas
-    }
-    if {$qtd_submodulos > 0} {
-        dict set instances SUBMODULO $qtd_submodulos
-    }
-
-    dict set db_module $module $instances
-}
 
 puts "=== Relatório de Células ==="
 
@@ -33,6 +17,8 @@ dict for {instance num} $totals {
 puts "Total: $total instâncias"
 
 ############################################################
+
+set db_module [read_cells_from_filename "netlist.v"]
 
 puts "\n=== Hierárquia do Design === "
 
@@ -72,3 +58,22 @@ dict for {module instances} $db_module {
 }
 
 # ############################################################
+
+set nets [read_nets_from_file "netlist.v"]
+
+set ordered_nets [lsort -stride 2 -index 1 -integer -decreasing $nets]
+
+puts "=== Top 10 Nets por FANOUT ==="
+
+foreach {net num} [lrange $ordered_nets 0 19] {
+    puts "$net: fanout = $num"
+}
+
+puts "\n=== Nets com FANOUT Zero (Possíveis Erros) ==="
+
+dict for {net num} $ordered_nets {
+    if {$num == 0} {
+        puts $net
+    }
+}
+
