@@ -55,4 +55,4 @@ proc read_nets_from_file {filename} {
     return $nets
 }
 
-puts [read_nets_from_file "netlist.v"]
+

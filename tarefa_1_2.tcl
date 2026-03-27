@@ -12,7 +12,6 @@ proc calc_instances {db} {
 	    
 	    dict set totals $instance $sum_after
 	}
-	
     }
     
     return $totals 
