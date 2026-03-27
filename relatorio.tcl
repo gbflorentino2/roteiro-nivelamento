@@ -1,4 +1,5 @@
-source tarefa_1_2.tcl
+source tarefa_1.tcl
+source tarefa_2.tcl
 source estatisticas_conexoes.tcl
 
 # Relatório
@@ -10,7 +11,7 @@ puts "=== Relatório de Células ==="
 set total 0
 dict for {instance num} $totals {
     if ($num) {
-	set total [expr {$total + $num}]
+        set total [expr {$total + $num}]
     }
     puts "$instance: $num instâncias"
 }
@@ -29,27 +30,27 @@ dict for {module instances} $db_module {
     puts $module
 
     if { [dict size $instances] > 0} {
-	dict for {instance num} $instances {
-	    set result [regexp {([A-Z]+)} $instance match]
-	    
-	    if {$match in $primitives} {
-		set has_primitive 1
-	    } else {
-		set has_submodules 1
-		puts "  |---- $instance ($num instâncias)"
-	    }
-	}
-	
+        dict for {instance num} $instances {
+            set result [regexp {([A-Z]+)} $instance match]
+            
+            if {$match in $primitives} {
+                set has_primitive 1
+            } else {
+                set has_submodules 1
+                puts "  |---- $instance ($num instâncias)"
+            }
+        }
+        
     } else {
-	puts "  |---- (Módulo primitivo - sem submódulos)"
+        puts "  |---- (Módulo primitivo - sem submódulos)"
     }
 
     if {$has_primitive} {
-	if {$has_submodules} {
-	    puts "  |---- (Células primitivas)"
-	} else {
-	    puts "  |---- (Somente células primitivas)"    
-	}
+        if {$has_submodules} {
+            puts "  |---- (Células primitivas)"
+        } else {
+            puts "  |---- (Somente células primitivas)"    
+        }
     }
 
     puts ""
@@ -71,6 +72,6 @@ puts "\n=== Nets com FANOUT Zero (Possíveis Erros) ==="
 
 dict for {net num} $ordered_nets {
     if {$num == 0} {
-	puts $net
+        puts $net
     }
 }
