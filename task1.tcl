@@ -16,7 +16,7 @@ while {[gets $fileId line] >= 0} {
     }
 }
 
-close $fileId
+close $fileI
 
 puts "=== RELATÓRIO DE CÉLULAS ===\n
 AND2: $and2 instâncias\n
