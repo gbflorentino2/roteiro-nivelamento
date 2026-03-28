@@ -46,8 +46,8 @@ do
 		fi
 	fi
 
-	if [[$extension == "v" ]]; then
-		if [[$filename == *"_tb"*]]; then
+	if [[ $extension == "v" ]]; then
+		if [[ $filename == *"_tb"* ]]; then
 			if [ ! -f ./tb/$filename_with_ext ]; then
 				mv $file ./tb
 			else 
