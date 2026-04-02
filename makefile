@@ -1,14 +1,18 @@
-.PHONY: relatorio
+.PHONY: relatorio organizar-pastas clean
 
-relatorio:
-	if [ ! -f ./relatorio.txt ]; then \
-		tclsh relatorio.tcl > relatorio.txt; \
+SHELL := /bin/bash
+LOG_DIR := .
+LOG_FILE_NAME := relatorio.txt
+LOG_FILE := $(LOG_DIR)/$(LOG_FILE_NAME)
+SCRIPT := relatorio.tcl
+
+relatorio: $(SCRIPT)
+	if [ ! -f "$(LOG_FILE)" ]; then \
+		tclsh "$(SCRIPT)" > "$(LOG_FILE)" 2>&1; \
 	fi
 
 organizar-pastas:
-	source ./shell_test/organizador.sh
+	bash ./shell_test/organizador.sh
 
 clean:
-	if [ -f ./relatorio.txt ]; then \
-		rm relatorio.txt; \
-	fi
+	rm -f "$(LOG_FILE)"
