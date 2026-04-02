@@ -1,0 +1,34 @@
+=== Relatório de Células ===
+AND2: 11 instâncias
+XOR2: 12 instâncias
+flipflop_D: 4 instâncias
+Total: 27 instâncias
+
+=== Hierárquia do Design === 
+somador_4bits
+  |---- (Somente células primitivas)
+
+flipflop_D
+  |---- (Módulo primitivo - sem submódulos)
+
+contador_4bits
+  |---- flipflop_D (4 instâncias)
+  |---- (Células primitivas)
+
+=== Top 10 Nets por FANOUT ===
+count: fanout = 11
+A: fanout = 8
+B: fanout = 8
+next_count: fanout = 8
+S: fanout = 4
+clk: fanout = 4
+rst: fanout = 4
+Cin: fanout = 2
+w2: fanout = 2
+w3: fanout = 2
+
+=== Nets com FANOUT Zero (Possíveis Erros) ===
+w1
+w4
+w7
+w10
